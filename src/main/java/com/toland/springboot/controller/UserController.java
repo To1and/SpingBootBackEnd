@@ -12,6 +12,7 @@ import com.toland.springboot.common.Result;
 import com.toland.springboot.controller.dto.UserDTO;
 import com.toland.springboot.entity.User;
 import com.toland.springboot.service.IUserService;
+import com.toland.springboot.utils.TokenUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,7 +41,6 @@ public class UserController
 
     @Resource
     private IUserService userService;
-
 
 
     //实现新增或者更新数据
@@ -82,10 +82,10 @@ public class UserController
     //实现基础分页查询
     @GetMapping("/page")
     public Result findPage(@RequestParam Integer pageNumber,
-                               @RequestParam Integer pageSize,
-                               @RequestParam(required = false, defaultValue = "") String username,
-                               @RequestParam(required = false, defaultValue = "") String nickname,
-                               @RequestParam(required = false, defaultValue = "") String address)
+                           @RequestParam Integer pageSize,
+                           @RequestParam(required = false, defaultValue = "") String username,
+                           @RequestParam(required = false, defaultValue = "") String nickname,
+                           @RequestParam(required = false, defaultValue = "") String address)
     {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
 
@@ -105,6 +105,12 @@ public class UserController
 //      queryWrapper.or().like("address", address);
 
         queryWrapper.orderByDesc("id");
+
+        //测试打印当前用户信息
+        User currentUser = TokenUtils.getCurrentUser();
+        System.out.println(
+                "当前用户信息+++++++++++++++++++++++++++++++++++++" + currentUser.getNickname() + "当前用户信息+++++++++++++++++++++++++++++++++++++");
+
         return Result.success(userService.page(new Page<>(pageNumber, pageSize), queryWrapper));
     }
 
@@ -219,4 +225,5 @@ public class UserController
         queryWrapper.eq("username", username);
         return Result.success(userService.getOne(queryWrapper));
     }
+
 }

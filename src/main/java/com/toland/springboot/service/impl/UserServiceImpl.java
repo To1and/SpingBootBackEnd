@@ -10,6 +10,7 @@ import com.toland.springboot.entity.User;
 import com.toland.springboot.exception.ServiceException;
 import com.toland.springboot.mapper.UserMapper;
 import com.toland.springboot.service.IUserService;
+import com.toland.springboot.utils.TokenUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,10 +35,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         User one = getUserInfo(userDTO);
 
+
         //业务处理错误
         if (one != null)
         {
             BeanUtil.copyProperties(one, userDTO, true);//将从数据库查询出的用户信息copy至参数对象中
+
+            String token = TokenUtils.generateToken(one.getId().toString(), one.getPassword());//获取加密后token
+            userDTO.setToken(token);//设置token
+
             return userDTO;
         }
         else
@@ -63,6 +69,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         return null;
     }
+
 
     //将登录和注册中相同的方法封装为一个新的独立的方法，使代码更简洁
     private User getUserInfo(UserDTO userDTO)

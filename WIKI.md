@@ -1172,3 +1172,24 @@
 + ## ___com.toland.springboot.common     Result.java___
 
   1. 编写包装类，实现返回结果的统一
+
+
+
+---
+
+# IX. 集成JSON Web Tokens
+
++ ## 前期准备
+
+  1. 添加JSON Web Tokens依赖
+
+     ```xml
+     <!--java-jwt -->
+     <dependency>
+         <groupId>com.auth0</groupId>
+         <artifactId>java-jwt</artifactId>
+         <version>3.10.3</version>
+     </dependency>
+     ```
+
++ ## 
