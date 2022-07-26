@@ -1089,3 +1089,81 @@
      ```
 
 ---
+
+# VIII. 实现用户登录
+
++ ## ___com.toland.springboot.controller.dto     UserDTO.java___
+
+  1. 在controller/dto中加入一个___UserDTO.java___用于存放接收前端请求的参数
+
+     ```java
+     import lombok.Data;
+     
+     /**
+      * 接收前端登录请求的参数
+      */
+     @Data
+     public class UserDTO
+     {
+         private String username;
+         private String password;
+     }
+     ```
+
++ ## ___com.toland.springboot.service     IUserService.java___
+
+  1. 在服务类___IUserService.java___定义一个userLogin方法
+
+     ```java
+     boolean userLogin(UserDTO userDTO);
+     ```
+
++ ## ___com.toland.springboot.service.impl     UserServiceImpl.java___
+
+  1. 在实现类UserServiceImpl.java中实现userLogin方法
+
+     ```java
+     private static final Log LOG = Log.get();
+     
+     @Override
+     public boolean userLogin(UserDTO userDTO)
+     {
+         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+         queryWrapper.eq("username", userDTO.getUsername());
+         queryWrapper.eq("password", userDTO.getPassword());
+     
+         try     //当返回数据不唯一时报错
+         {
+             User one = getOne(queryWrapper);
+             return one != null;
+         }
+         catch (Exception e)
+         {
+             LOG.error(e);
+             return false;
+         }
+     }
+     ```
+
++ ## ___com.toland.springboot.controller     UserController.java___
+
+  1. 在控制类中对传回数据做非空验证，并中转
+
+     ```java
+     //实现登录（@RequestBody把前端传来的json转换为后台的java对象）
+     @PostMapping("/login")
+     public boolean userLogin(@RequestBody UserDTO userDTO)
+     {
+         String username = userDTO.getUsername();
+         String password = userDTO.getPassword();
+         if(StrUtil.isBlank(username)||StrUtil.isBlank(password))       //利用isBlank方法判断是否为空
+         {
+             return false;       //为空则报错
+         }
+     
+         return userService.userLogin(userDTO);      //不为空则进入验证环节
+     }
+     ```
+
+---
+

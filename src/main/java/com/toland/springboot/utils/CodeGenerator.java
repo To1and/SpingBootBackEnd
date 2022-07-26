@@ -11,10 +11,10 @@ public class CodeGenerator
 {
     public static void main(String[] args)
     {
-        gengerate();
+        generate();
     }
 
-    private static void gengerate()
+    private static void generate()
     {
         FastAutoGenerator.create("jdbc:mysql://localhost:3306/testdb?serverTimezone=GMT%2b8", "toland", "990315")
                 .globalConfig(builder ->
@@ -24,14 +24,14 @@ public class CodeGenerator
                                           .fileOverride() // 覆盖已生成文件
                                           .disableOpenDir() //不打开生成目录
                                           .outputDir(
-                                                  "C:\\CodeSpace\\SpringBoot-Vue Study Project\\src\\main\\java\\"); // 指定输出目录
+                                                  "C:\\CodeSpace\\SpingBootBackEnd\\src\\main\\java\\"); // 指定输出目录
                               })
                 .packageConfig(builder ->
                                {
                                    builder.parent("com.toland.springboot") // 设置父包名
                                            .moduleName(null) // 设置父包模块名
                                            .pathInfo(Collections.singletonMap(OutputFile.mapperXml,
-                                                                              "C:\\CodeSpace\\SpringBoot-Vue Study Project\\src\\main\\resources\\mapper\\")); // 设置mapperXml生成路径
+                                                                              "C:\\CodeSpace\\SpingBootBackEnd\\src\\main\\resources\\mapper\\")); // 设置mapperXml生成路径
                                })
                 .strategyConfig(builder ->
                                 {
