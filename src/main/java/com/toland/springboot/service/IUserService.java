@@ -1,5 +1,6 @@
 package com.toland.springboot.service;
 
+import com.toland.springboot.controller.dto.UserDTO;
 import com.toland.springboot.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-07-25
  */
 public interface IUserService extends IService<User> {
+
+    boolean userLogin(UserDTO userDTO);
 
 }
