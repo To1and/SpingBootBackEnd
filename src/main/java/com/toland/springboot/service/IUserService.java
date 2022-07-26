@@ -14,6 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
-    boolean userLogin(UserDTO userDTO);
+    UserDTO userLogin(UserDTO userDTO);
+
+    User userRegister(UserDTO userDTO);
+
 
 }

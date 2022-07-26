@@ -1167,3 +1167,8 @@
 
 ---
 
+# IIX. 实现用户注册和异常处理
+
++ ## ___com.toland.springboot.common     Result.java___
+
+  1. 编写包装类，实现返回结果的统一
